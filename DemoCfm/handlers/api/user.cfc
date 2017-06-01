@@ -13,9 +13,6 @@ component  {
     myQry.addParam(name="username",value=username,CFSQLTYPE="CF_SQL_VARCHAR");
     myQry.addParam(name="password",value=password,CFSQLTYPE="CF_SQL_VARCHAR");  // add query param
     qryRes = myQry.execute(); // execute query
-    //writedump(qryRes.getResult().recordcount, true); // get resultcount
-    //writedump(qryRes.getResult(), false); // dump result
-   // writeoutput('<BR>');
     if(qryRes.getResult().recordcount >0)
     return "success";
 
@@ -23,8 +20,21 @@ component  {
 
   }
 
-  remote function signUp(String username,String password ) {
-   writedump(arguments);
+  remote function signUp(required String firstname="",required String lastname="",required String password="" ,required String email="",required String contact="") returnformat="json" {
+   insrtQuery=new Query();
+
+   var fullName=firstName & lastname;
+
+   insrtQuery.setSQL("INSERT INTO user(name,contact,email,password) VALUES(:name,:contact,:email,:password)");
+   insrtQuery.addParam(name="name",value=fullName,CFSQLTYPE="CF_SQL_VARCHAR");
+   insrtQuery.addParam(name="contact",value=contact,CFSQLTYPE="CF_SQL_VARCHAR");
+   insrtQuery.addParam(name="email",value=email,CFSQLTYPE="CF_SQL_VARCHAR");
+   insrtQuery.addParam(name="password",value=password,CFSQLTYPE="CF_SQL_VARCHAR");
+
+   qryRes = insrtQuery.execute();
+
+   return "success";
+
   }
 
   function save( event, rc, prc ) {

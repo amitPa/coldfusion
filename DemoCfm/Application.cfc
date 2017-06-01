@@ -9,7 +9,7 @@ component accessors=true output=false persistent=false {
 	this.applicationTimeout = CreateTimeSpan(10, 0, 0, 0 );
 	this.sessionManagement=true;
 
-	this.datasource="blog_test" ;
+	this.datasource="bor" ;
 		this.sessionTimeout = CreateTimeSpan(0, 0, 30,  0);
     this.ormEnabled = true ;
     this.ormSettings = { logsql=true,
