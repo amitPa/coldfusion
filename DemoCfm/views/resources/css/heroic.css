@@ -19,3 +19,18 @@ body {
 footer {
     margin: 50px 0;
 }
+
+/*
+* Custom CSS
+ */
+div.thumbnail img {
+	height:200px;
+	width:auto;
+}
+
+header.jumbotron {
+    background-image: url(../images/carousal2.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color:yellow;
+}

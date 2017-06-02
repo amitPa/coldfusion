@@ -13,9 +13,13 @@ component  {
     myQry.addParam(name="username",value=username,CFSQLTYPE="CF_SQL_VARCHAR");
     myQry.addParam(name="password",value=password,CFSQLTYPE="CF_SQL_VARCHAR");  // add query param
     qryRes = myQry.execute(); // execute query
-    if(qryRes.getResult().recordcount >0)
-    return "success";
-
+    if(qryRes.getResult().recordcount >0){
+    	Session.email= qryRes.getResult().email[1];
+    	Session.name= qryRes.getResult().name[1];
+    	Session.contact= qryRes.getResult().contact[1];
+    	Session.authenticated=true;
+        return "success";
+    }
    return "failure";
 
   }

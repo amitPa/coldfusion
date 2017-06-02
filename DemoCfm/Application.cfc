@@ -27,10 +27,15 @@ component accessors=true output=false persistent=false {
       }
 
       function onRequestStart(string targetName){
+      	var loginUrl="/DemoCFM/views/login.cfm";
       	if(structKeyExists(url,'reload')){
       		onApplicationStart();
 
       	}
-      		ormReload();
+
+      	if(structKeyExists(session,'authenticated') && loginUrl!=targetName)
+      		return true;
+      	else
+      	   sessionInvalidate();
       }
 }

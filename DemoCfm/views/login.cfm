@@ -40,7 +40,8 @@
 						</strong>
 					</div>
 					<div class="panel-body">
-						<form role="form" name="form" action="DemoCFM/handlers/api/user.cfc?method=checkLogin" id="signInForm" >
+						<form role="form" name="form" action="/DemoCFM/handlers/api/user.cfc" id="signInForm" method="POST">
+							<input type="hidden" name="method" value="checkLogin"/>
 							<fieldset>
 								<div class="row">
 									<div class="center-block">
@@ -56,7 +57,7 @@
 													<i class="glyphicon glyphicon-user">
 													</i>
 												</span>
-												<input type="email" class="form-control" placeholder="Please enter Username" name="email" type="text" autofocus value="" id="inpEmail" title="Please enter the email" required>
+												<input type="email" class="form-control" placeholder="Please enter Username" name="username" type="text" autofocus value="" id="inpEmail" title="Please enter the email" required>
 											</div>
 										</div>
 										<div class="form-group">
