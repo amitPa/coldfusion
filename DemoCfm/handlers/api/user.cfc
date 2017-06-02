@@ -14,10 +14,11 @@ component  {
     myQry.addParam(name="password",value=password,CFSQLTYPE="CF_SQL_VARCHAR");  // add query param
     qryRes = myQry.execute(); // execute query
     if(qryRes.getResult().recordcount >0){
-    	Session.email= qryRes.getResult().email[1];
-    	Session.name= qryRes.getResult().name[1];
-    	Session.contact= qryRes.getResult().contact[1];
-    	Session.authenticated=true;
+    	session.email= qryRes.getResult().email[1];
+    	session.name= qryRes.getResult().name[1];
+    	session.contact= qryRes.getResult().contact[1];
+    	session.authenticated=true;
+    	//writeoutput(session.email & "  Amit");
         return "success";
     }
    return "failure";
