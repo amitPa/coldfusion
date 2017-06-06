@@ -27,30 +27,33 @@ component accessors=true output=false persistent=false {
       }
 
       function onRequestStart(string targetName){
-      	var loginUrl="/DemoCFM/views/login.cfm";
       	if(structKeyExists(url,'reload')){
       		onApplicationStart();
 
       	}
-
-      	if(structKeyExists(session,"authenticated") && session.authenticated){
-      		return true;
-      		writeoutput("Validated  ");
-      		writeoutput(find(loginUrl,targetName));
-      		 //location(targetName);
-      	}
-      	else {
-      	  // sessionInvalidate();
-      	   writeoutput("Invalidated  ");
-      	  // location(targetName);
-
-      	}
-      	  // writeoutput(structKeyExists(session,'authenticated'));
-//      	   writeoutput(targetName);
-//      	    writeoutput("    ");
-//      	   writeoutput(loginUrl);
-//      	   writeoutput(Compare(targetName,loginUrl));
-      	   //writedump(Session);
-
       }
+
+      function onRequest(String targetName){
+      	var loginUrl="/DemoCFM/views/login.cfm";
+      	var signupUrl="/DemoCFM/views/signup.cfm";
+      	if(structKeyExists(session,"authenticated")){
+      	 if(targetName==loginUrl)
+             location(url="/DemoCFM/views/dashboard/dashboard.cfm",addtoken = false);
+         else
+         include targetName;
+      	}
+
+      	else {
+      		sessionInvalidate();
+      		if(targetName==loginUrl ||targetName==signupUrl )
+      		include targetName;
+            else{
+            	 location(loginUrl);
+            }
+      	}
+      }
+
+       function onMissingTemplate(){
+      		 location(url="/DemoCFM/views/login.cfm",addtoken = false);
+      	}
 }

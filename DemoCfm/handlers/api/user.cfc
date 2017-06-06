@@ -42,6 +42,18 @@ component  {
 
   }
 
+ remote function booking(String productId=""){
+ 	myQry = new Query(); // new query object
+    myQry.setSQL("select url,name,description,price,discount from product where product_id =:productId"); //set query
+    myQry.addParam(name="productId",value=productId,CFSQLTYPE="CF_SQL_VARCHAR");
+    qryRes = myQry.execute();
+      if(qryRes.getResult().recordcount >0){
+      	return qryRes.getResult();
+    }else{
+    	location(url="/DemoCFM/views/dashboard/dashboard.cfm",addToken=false);
+    }
+
+ }
   function save( event, rc, prc ) {
     // Save a user
   }

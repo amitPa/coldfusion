@@ -7,6 +7,7 @@
 
 	<link rel="shortcut icon" href="http://www.mindfiresolutions.com/_images_/favicon.ico" type="image/x-icon" />
 	</link>
+<link rel="stylesheet" type="text/css" href="resources/css/dashboard.css"/>
 
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet"/>
