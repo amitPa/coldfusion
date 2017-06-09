@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link rel="stylesheet" type="text/css" href="../resources/css/bootstrap-fusion.min.css"/>
 		<link rel="stylesheet" type="text/css" href="../resources/css/booking.css"/>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
 		<title>
 			Booking
 		</title>
 		<cfscript>
 
 		</cfscript>
-	   <style type="text/css">
-			.sp{
-			padding-top:20px;
-			}
-		</style>
 	</head>
 	<body>
 		<!-- Navigation -->
@@ -85,35 +82,48 @@
 						</a>
 					</li>
 				</ul>
-			</div><a href="../../handlers/api/user.cfc"></a>
-					<main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-			<div class="row">
+			</div>
+			<main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3" id="booking">
+
 			<cfscript>
 			productId = url.productId;
 			queryObj=createObject("Component", "DemoCfm.handlers.api.user");
 			product=queryObj.booking(productId="#productId#");
 			</cfscript>
+			     <div class="row">
 			<cfoutput>
-				     <div class="col-sm-6  text-center">
-				     <div class="row sp"><div class="col-sm-12 text-center">	<img src="#product.URL#"  style="height:300px ;width:auto;"></img></div>
+				     <div class="col-sm-12 col-lg-6 col-md-6 text-center border">
+				     <div class="row sp"><div class="col-sm-12 col-xs-12 text-center">	<img src="#product.URL#"  alt="Generic placeholder thumbnail"></img></div>
 					 <div class="col-sm-12 text-center"><h1><strong>#product.NAME#</strong></h1></div>
 					 </div>
+					 <div class="row sp">
+					<div class="col-sm-6 col-xs-6 text-center">
+                       <a href="cart.cfm?type=purchased&productId=#productId#" class="btn btn-success" role="button"><strong>Purchase Now</strong></a>
 					</div>
-                     <div class="col-sm-6">
+                    <div class="col-sm-6 col-xs-6 text-center">
+                       <a href="cart.cfm?type=cart&productId=#productId#" class="btn btn-warning" role="button"><strong>Add to Cart </strong></a>
+					</div>
+					 </div>
+					</div>
+                     <div class="col-sm-12 col-lg-6  col-md-6 border">
 					<div class="row sp">
-					    <div class="col-sm-4"><strong>Name:</strong></div>
-					    <div class="col-sm-8"><span>#product.NAME#</span></div>
+					    <div class="col-sm-3 col-md-4"><strong>Name:</strong></div>
+					    <div class="col-sm-9 col-md-8"><strong>#product.NAME#</strong></div>
 					 </div>
 					 <div class="row sp">
-					   <div class="col-sm-4"><span><strong>Description:</strong></span></div>
-					   <div class="col-sm-8"><span>#product.DESCRIPTION#</span></div>
+					   <div class="col-md-4 col-sm-3"><strong>Description:</strong></div>
+					   <div class="col-md-8 col-sm-9"><strong>#product.DESCRIPTION#</strong></div>
 					</div>
 					<div class="row sp">
-						 <div class="col-sm-4"><span><strong>Price:</strong></span></div>
-						<div class="col-sm-8"><span>#product.PRICE#</span></div>
+						 <div class="col-md-4 col-sm-3"><strong>Price:</strong></div>
+						<div class="col-md-8 col-sm-9"><strong>#product.PRICE#</strong></div>
+					</div>
+					<div class="row sp">
+						 <div class="col-md-4 col-sm-3"><strong>Summary:</strong></div>
+						<div class="col-md-8 col-sm-9"><span>#product.SUMMARY#</span></div>
 					</div>
 					</div>
-            </cfoutput>
+               </cfoutput>
 			</div>
 		</main>
 

@@ -12,11 +12,6 @@
 		<title>
 			Booking
 		</title>
-		<style type="text/css">
-			.sp{
-			padding-top:20px;
-			}
-		</style>
 	</head>
 	<body>
 		<!-- Navigation -->
@@ -142,10 +137,10 @@ name DESC
 											#ecom.description#
 										</p>
 										<p>
-											<a href="booking.cfm?productId=#ecom.productId#" class="btn btn-primary">
+											<a href="booking.cfm?productId=#ecom.productId#" target="_blank" class="btn btn-primary">
 												Buy Now!
 											</a>
-											<a href="##" class="btn btn-default">
+											<a href="##" class="btn btn-primary">
 												More Info
 											</a>
 										</p>
