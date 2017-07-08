@@ -4,7 +4,7 @@ component output=false{
      this.ignoreExpiration=true;
      this.issuer="localhost";
      this.audience="desktop";
-     this.expiration=99999999999;
+     this.expiration=180;
 
      this.algorithm="HmacSHA256";
 
@@ -13,7 +13,7 @@ component output=false{
      variables.ignoreExpiration=true;
      variables.issuer="localhost";
      variables.audience="desktop";
-     variables.expiration=99999999999;
+     variables.expiration=180;
 
      variables.algorithmMap = {
 			"HS256" = "HmacSHA256"
@@ -37,7 +37,7 @@ component output=false{
      }
 
      if (StructKeyExists(payload,"exp") ){
-        if (epochTimeToLocalDate(payload.exp) > now()){
+        if (DateAdd("s",this.expiration,payload.created) > now()){
           throw(type="Token Expired" ,message="Token Expired");
         }
      }
@@ -92,16 +92,23 @@ component output=false{
    }
 
    //encode(struct) as String Description:  encode a data structure as a JSON Web Token
-   public string function encode(required struct payload){
-   writeLog(text = " hitting SignIn Encode " & payload.name, application = "no", file = "server");
- 
+   public string function encode(required struct encryptData){
+   writeLog(text = " hitting SignIn Encode " & encryptData.user, application = "no", file = "server");
+
+   //create payload
+   var payload=structNew();
+   payload.user=encryptData.user;
+   payload.created=Now();
+
+   writeLog(text = " hitting SignIn Encode  time  " & payload.created & " / " & DateAdd("s",this.expiration,payload.created) , application = "no", file = "server");
+
    var segments = "";
      writeLog(text = " hitting SignIn Encode  seg1 " & segments , application = "no", file = "server");
     segments = listAppend(segments, base64UrlEscape(toBase64(serializeJSON({ "typ" =  "JWT", "alg" = this.algorithm }))),".");
     writeLog(text = " hitting SignIn Encode  seg2 " & segments , application = "no", file = "server");
 
 
-    segments=listAppend(segments, base64UrlEscape(toBase64(serializeJSON(arguments.payload))),".");
+    segments=listAppend(segments, base64UrlEscape(toBase64(serializeJSON(payload))),".");
         writeLog(text = " hitting SignIn Encode  seg3 " & segments , application = "no", file = "server");
 
      segments=listAppend(segments, sign(segments),".");
