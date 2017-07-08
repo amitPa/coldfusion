@@ -8,11 +8,11 @@ component rest="true" restpath="/crud" {
 
 
 
-	remote string function checkCrud(string userid="" restargsource="path") returnFormat="json" produces="application/json" httpmethod="GET" restpath="{userid}" {
+  remote string function checkCrud(string userid="" restargsource="path") returnFormat="json" produces="application/json" httpmethod="GET" restpath="{userid}" {
 
-	   	var data = '{empName: "amitsdd", age:"26"}';
-	   var serializedStr = serializeJSON(data);
-	   return serializedStr;
+      var data = '{empName: "amitsdd", age:"26"}';
+     var serializedStr = serializeJSON(data);
+     return serializedStr;
 
   }
 
@@ -63,22 +63,16 @@ component rest="true" restpath="/crud" {
     writedump(newQry);
     qryNewRes=newQry.execute();
     writedump(qryNewRes);
-
     var array = ArrayNew(1);
     var str=structNew();
-
     for(rowS in qryNewRes.getResult()){
       str.id=rowS.id;
       str.originalAmount=rowS.original_basket_amount;
       str.discountedAmount=rowS.DISCOUNTED_BASKET_AMOUNT;
       ArrayAppend(array,str);
     }
-
    return array;
-
 }
-
-
  remote query function getPaginatedDataQuery(required numeric pageNumber=0 restargsource="query") returnFormat="json" produces="application/json" httpmethod="GET" restpath="list/page"  {
 
    var pageSize=10;
@@ -96,21 +90,12 @@ component rest="true" restpath="/crud" {
 
     var newQry = new Query();
     newQry.setSQL("select * From basket LIMIT " & pageSize & " Offset " & offset);
-
     qryNewRes=newQry.execute();
-
-
    return qryNewRes.getResult();
-
 }
-
-
   remote string function postBatchData(required array data) produces="application/json" httpmethod="POST" restpath="struct/batchPost" {
-
      var stri = '{empName: "amitsdd", age:"26"}';
-
       try{
-
         variables.count = 1;
         variables.totalNumberOfRecords = arrayLen(data);
         variables.countLimit = 2;
@@ -167,6 +152,21 @@ component rest="true" restpath="/crud" {
          return serializeJSON(stri);
        writedump(e);
      }
+  }
+
+  remote string function postData(required struct data) returnFormat="json" produces="application/json" httpmethod="POST" restpath="struct/signIn" {
+   writeLog(text = " hitting SignIn Api", application = "no", file = "server");
+      try{
+      var user=createObject('component', 'security.JwtSecurity.jwt');
+      
+        var token=user.encode(data);
+      }
+      catch(any e){
+        var stri = '{responseCode: "500", reason:" failed to encode token"}';
+        return serializeJSON(stri);
+      }
+       var stri = '{responseCode: "500", reason:"token", token:"' & token & '"}';
+       return serializeJSON(stri);
   }
 
 }
