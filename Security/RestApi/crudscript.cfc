@@ -25,6 +25,7 @@ component rest="true" restpath="/crud" {
   }
 
   remote struct function createParseData(required struct data) returnFormat="json" produces="application/json" httpmethod="POST" restpath="struct/post" {
+
         var user=createObject('component', 'security.domain.user');
         writedump(user);
         user.setName(data.name);
@@ -44,6 +45,11 @@ component rest="true" restpath="/crud" {
   }
 
   remote Array function getPaginatedData(required numeric pageNumber=0 restargsource="query") returnFormat="json" produces="application/json" httpmethod="GET" restpath="list/pagination"  {
+
+    var auth=createObject('component', 'security.Util.Authorization');
+        if(!auth.verifyHeader()){
+           throw(type="Authorization Header" ,message=" Authorization header is not passed ");
+        }
 
    var pageSize=10;
 
@@ -75,7 +81,11 @@ component rest="true" restpath="/crud" {
 }
  remote query function getPaginatedDataQuery(required numeric pageNumber=0 restargsource="query") returnFormat="json" produces="application/json" httpmethod="GET" restpath="list/page"  {
 
-   var pageSize=10;
+      var auth=createObject('component', 'security.Util.Authorization');
+        if(!auth.verifyHeader()){
+           throw(type="Authorization Header" ,message=" Authorization header is not passed ");
+        }
+    var pageSize=10;
 
     var myQry = new Query();
     myQry.setSQL("select count(id) as idr From basket"); //set query
@@ -93,9 +103,21 @@ component rest="true" restpath="/crud" {
     qryNewRes=newQry.execute();
    return qryNewRes.getResult();
 }
+
   remote string function postBatchData(required array data) produces="application/json" httpmethod="POST" restpath="struct/batchPost" {
-     var stri = '{empName: "amitsdd", age:"26"}';
+       
+          writeLog(text = " hitting PostBatchData Api", application = "no", file = "server");
+
+        var auth=createObject('component', 'security.Util.Authorization');
+        writeLog(text = " hitting PostBatchData Api auth ", application = "no", file = "server");
+        if(!auth.verifyHeader()){
+           var stri = '{responseCode: "500", reason:"Token is required"}';
+           return serializeJSON(stri);
+        }
+
       try{
+       
+
         variables.count = 1;
         variables.totalNumberOfRecords = arrayLen(data);
         variables.countLimit = 2;
@@ -143,8 +165,8 @@ component rest="true" restpath="/crud" {
         var stri = '{responseCode: "500", age:"Operation Failed"}';
      }
 
-    var serializedStr = serializeJSON(stri);
-     return serializedStr;
+      return serializeJSON(stri);
+
      }
      catch(any e){
          var stri = '{responseCode: "500", reason:"' & toString(e) & '"}';
@@ -154,19 +176,30 @@ component rest="true" restpath="/crud" {
      }
   }
 
-  remote string function postData(required struct data) returnFormat="json" produces="application/json" httpmethod="POST" restpath="struct/signIn" {
+  remote struct function postData(required struct data) returnFormat="json" produces="application/json" httpmethod="POST" restpath="struct/signIn" {
+
    writeLog(text = " hitting SignIn Api", application = "no", file = "server");
+
       try{
-      var user=createObject('component', 'security.JwtSecurity.jwt');
-      
-        var token=user.encode(data);
+      var jwt=createObject('component', 'security.JwtSecurity.jwt');
+          writeLog(text = " hitting SignIn Api f", application = "no", file = "server");
+        var token=jwt.encode(data);
       }
       catch(any e){
-        var stri = '{responseCode: "500", reason:" failed to encode token"}';
-        return serializeJSON(stri);
+      var stri={
+       responseCode: "500",
+       reason:" failed to encode token " & toString(e)
+      };
+
+      return stri;
+
       }
-       var stri = '{responseCode: "500", reason:"token", token:"' & token & '"}';
-       return serializeJSON(stri);
+       var stri={
+       responseCode: "200",
+       token:token
+      };
+
+      return stri;
   }
 
 }
