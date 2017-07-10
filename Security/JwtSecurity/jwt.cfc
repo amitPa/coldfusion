@@ -99,11 +99,6 @@ component output=false{
      return returnStr;
    }
 
-   //To check expiration time
-   private function epochTimeToLocalDate(required any epoch){
-      return createObject("java", "java.util.Date").init(epoch*1000);
-   }
-
    //encode(struct) as String Description:  encode a data structure as a JSON Web Token
    public string function encode(required struct encryptData){
    writeLog(text = " hitting SignIn Encode " & encryptData.user, application = "no", file = "server");
