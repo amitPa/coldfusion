@@ -27,13 +27,17 @@ component rest="true" restpath="/crud" {
   remote struct function createParseData(required struct data) returnFormat="json" produces="application/json" httpmethod="POST" restpath="struct/post" {
 
         var user=createObject('component', 'security.domain.user');
+        var prop=createObject('component', 'security.domain.prop');
         writedump(user);
         user.setName(data.name);
         user.setPassword(data.password);
-        writedump(user);
+        user.setPhone(data.phone);
+        prop.setName("amit");
+        prop.setId("5");
+        user.setProp(prop);
         //abort;
         data.uid = createUuid();
-        return data;
+        return user;
   }
 
 
@@ -52,7 +56,7 @@ component rest="true" restpath="/crud" {
         }
 
    var pageSize=10;
-
+ try{
     var myQry = new Query();
     myQry.setSQL("select count(id) as idr From basket"); //set query
     qryRes = myQry.execute();
@@ -76,11 +80,18 @@ component rest="true" restpath="/crud" {
       str.originalAmount=rowS.original_basket_amount;
       str.discountedAmount=rowS.DISCOUNTED_BASKET_AMOUNT;
       ArrayAppend(array,str);
+        return array;
     }
-   return array;
+    }catch(Any e){
+      writeLog(text = " Error in creating file  " & toString(e), application = "no", file = "test");
+    }
+   return ArrayNew(1);
 }
- remote query function getPaginatedDataQuery(required numeric pageNumber=0 restargsource="query") returnFormat="json" produces="application/json" httpmethod="GET" restpath="list/page"  {
 
+ remote any function getPaginatedDataQuery(required numeric pageNumber=0 restargsource="query") returnFormat="json" produces="application/json" httpmethod="GET" restpath="list/page"  {
+
+  writeLog(text = " Hitting list/page api " , file = "test");
+  try{
       var auth=createObject('component', 'security.Util.Authorization');
         if(!auth.verifyHeader()){
            throw(type="Authorization Header" ,message=" Authorization header is not passed ");
@@ -97,11 +108,33 @@ component rest="true" restpath="/crud" {
     if(offset>recordCount){
       offset=recordCount-(recordCount%pageSize);
     }
-
+    writeLog(text = " Hitting offset " & offset & " pageSize " & pageSize, file = "test");
     var newQry = new Query();
+
+    
     newQry.setSQL("select * From basket LIMIT " & pageSize & " Offset " & offset);
+
+     writeLog(text = " Hitting offset " & offset & " pageSize " & pageSize, file = "test");
+      writelog(text = "creating file  " & myFile, application = "no", file = "test");
     qryNewRes=newQry.execute();
-   return qryNewRes.getResult();
+      writelog(text = "creating file  " & myFile, application = "no", file = "test");
+     myFile = expandPath("/myFiles.json"); 
+     writelog(text = "creating file  " & myFile, application = "no", file = "test");
+     data = "I'm going to create a file object";
+     FileWrite( myFile, serializeJSON(qryNewRes.getResult()));
+     newFileObj = FileRead( "fileObj" );
+     writeDump(var=newFileObj);
+     // OR write direct to filemyFile = expandPath( "somefile.txt" );
+     //data = "I'm going to write to direct to file";
+    // FileWrite(myFile, data);
+
+       return qryNewRes.getResult();
+    }catch(Any e){
+       writeLog(text = " Error in creating file  " & toString(e), application = "no", file = "test");
+       return new Query();
+    }
+
+
 }
 
   remote string function postBatchData(required array data) produces="application/json" httpmethod="POST" restpath="struct/batchPost" {
@@ -202,4 +235,45 @@ component rest="true" restpath="/crud" {
       return stri;
   }
 
+  remote any function jsonFeed() returnFormat="json" produces="application/json" httpmethod="GET" restpath="jsonfeed"{
+
+    var query= new Query();
+    query.setSQL("CALL `partner-portal-db`.amitp()");
+    qryNewRes=query.execute();
+     try{
+    var myFile = expandPath("mytryFiles.json"); 
+     writelog(text = "creating file  " & myFile, application = "no", file = "test");
+     data = "I'm going to create a file object";
+     var array=arrayNew(1);
+    for(rowS in qryNewRes.getResult()){
+      str.company=rowS.company;
+      str.companyNew=rowS.companyNew;
+      ArrayAppend(array,rowS);
+    }
+     var structData=qryNewRes.getResult();
+     FileWrite( myFile, serializeJson(deserializeJSON(serializeJSON(structData)).DATA));
+
+      var myFileN = expandPath("mytryFilesNew.json"); 
+      FileWrite( myFileN, serializeJSON(structData));
+
+        var myFileArray = expandPath("mytryFilesArray.json"); 
+      FileWrite( myFileArray, serializeJSON(array)); 
+
+      newFileObj = FileRead( myFile );
+     } catch(Any e){
+       writeLog(text = " hitting jsonfeed apis", application = "no", file = "test");
+      var stri={
+       responseCode: "200",
+       response:"File write failed " & e
+      };
+     return stri;
+     }
+       var stri={
+       responseCode: "200",
+       response:"File not written"
+      };
+     return stri;
+
+
+  }
 }

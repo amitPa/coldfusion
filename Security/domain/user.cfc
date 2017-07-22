@@ -9,5 +9,5 @@ component accessors=true output=false persistent=false {
 property name="name" type="string";
 property name="password" type="string";
 property name="phone" type="string";
-
+property name="prop" type="prop";
 }
