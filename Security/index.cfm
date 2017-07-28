@@ -20,7 +20,7 @@
          }
        });
     }
- 
+
 
 
     </script>
@@ -28,7 +28,7 @@
 	</head>
 	<body>
 		<div class="container">
-			<cfset restInitApplication( getDirectoryFromPath( getCurrentTemplatePath() ), "amit")>
+
 			<h1>
 				Hello World
 			</h1>
@@ -36,6 +36,10 @@
 			<h2 style="color:red">
 				Helllooo
 			</h2>
+			<cfscript>
+			  xmlParse=createObject("component","XmlParsing.ReadXml");
+			  writedump(xmlParse.readXml());
+			</cfscript>
 		</div>
 	</body>
 </html>

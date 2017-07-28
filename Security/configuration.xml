@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<configuration>
+<portsOut>
+   <port type="Enviance.EIFL.Ports.PartialDataPointUploadPort" ID="partialDataOut" CheckTags="true" 
+
+      SendExistingTags="true" SplittingXmlPath="DataPoints/DataPoint"
+
+      DestinationUrl="https://ws-sandbox.enviance.com/2010/DataService.asmx"
+
+      AuthorizationUrl="https://ws-sandbox.enviance.com/2003/AuthService.asmx"
+   
+      TreeServiceUrl="https://ws-sandbox.enviance.com/2003/TreeService.asmx"
+   
+      Login="myuser"
+   
+      Password="********"
+   
+      Datasource=""
+   
+      MaxRetry="0"
+   
+      WebServiceTimeout="100"
+   
+      PartialProcess="True"
+   
+      ProxyUrl="proxy.eqt.com:9090"
+   
+      ProxyLogin="hollandmc"
+   
+      ProxyPassword="*********"
+   
+      ProxyDomain="EQT.COM"/>
+   
+</portsOut>
+</configuration>

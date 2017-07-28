@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<partners>
+ <partner partner_id="101" name="Elsivier"> 
+  <ftpPort 
+     host="192.168.10.2"
+
+     user="admin"
+
+     pass="password"
+
+     path="/<partner_name>/"
+
+     schedule_day_of_month= "<day>"
+
+     attribute_file= "datadictionary_<partner_id>.xml"
+
+      output_file= "<partner_id>_jsonFeed.json"/>
+ </partner>
+ <partner partner_id="102" name="Rex"> 
+  <ftpPort 
+    host="192.168.10.7"
+
+    user="admin"
+
+    pass="password"
+
+    path="/<partner_name>/"
+
+    schedule_day_of_month= "<day>"
+
+    attribute_file= "datadictionary_<partner_id>.xml"
+
+    output_file= "<partner_id>_jsonFeed.json"/>
+ </partner>
+</partners>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<client> 
+<!-- A list of employees -->
+<table name="doc" IsRequired="true"> 
+<column IsRequired="false">Almanzo</column> 
+<column IsRequired="true">Wilder</column> 
+<column IsRequired="true">docName</column> 
+<column IsRequired="true">docType</column> 
+</table> 
+<table name="docHazard" IsRequired="true"> 
+<column IsRequired="true">Laura</column> 
+<column IsRequired="true">Ingalls</column> 
+</table> 
+<table name="docHazard" IsRequired="false"> 
+<column IsRequired="true">Laura</column> 
+<column IsRequired="true">Ingalls</column> 
+</table> 
+</client>

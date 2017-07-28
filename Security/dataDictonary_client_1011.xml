@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<schema name="bifrost" partner="elsvier">
+ <table name="doc" IsRequired="true"> 
+    <field  name="DocName" columnName="DocName" isRequired="true"/>
+    <field  name="DocId" columnName="DocId" isRequired="false"/>
+ </table> 
+ <table name="docHandling" IsRequired="true"> 
+    <field  name="AirRelease" columnName="AirRelease" isRequired="false"/ > 
+    <field  name="Antidote" columnName="Antidote" isRequired="false" /> 
+    <field  name="comments8" columnName="comments8" isRequired="true" />    
+	<field  name="EmergencyEyeFaceProtection" columnName="EmergencyEyeFaceProtection" isRequired="true"/>  
+ </table> 
+ <table name="docHazard" IsRequired="false"> 
+    <field  name="ACGIHCarcinogen" columnName="ACGIHCarcinogen" isRequired="true" /> 
+    <field  name="AcuteEyeEffects" columnName="AcuteEyeEffects" isRequired="true" /> 
+    <field  name="Date of Contact" columnName="DateofContact" isRequired="true" /> 
+	<field  name="Bioaccumulation" columnName="Bioaccumulation" isRequired="false" /> 
+ </table> 
+ ....
+ 
+</schema>
